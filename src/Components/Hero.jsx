@@ -5,7 +5,8 @@ import { TiLocationArrow } from "react-icons/ti";
 import Button from "./UI/Button";
 import VideoPreview from "./VideoPreview";
 
-const Hero = () => {
+const Hero = () =>
+{
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -35,17 +36,20 @@ const Hero = () => {
     ["0% 0% 0% 0%", "0% 0% 40% 10%"]
   );
 
-  const handleVideoLoad = () => {
+  const handleVideoLoad = () =>
+  {
     setLoadedVideos((prev) => prev + 1);
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (loadedVideos === totalVideos - 1) {
       setLoading(false);
     }
   }, [loadedVideos]);
 
-  const handleMiniVdClick = () => {
+  const handleMiniVdClick = () =>
+  {
     setHasClicked(true);
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
     if (nextVdRef.current) {
@@ -80,20 +84,18 @@ const Hero = () => {
               opacity: 0,
             }}
             animate={{
-              border: "0px solid #000", 
               opacity: 1,
             }}
             whileHover={{
-              border: "1px solid #000", 
               opacity: 1,
-              transition: { duration: 0.5, ease: "easeInOut", delay: 0.2 }
+              transition: { duration: 0.5, ease: "easeIn", }
             }}
           >
             <VideoPreview key={currentIndex}>
               <motion.div
                 onClick={handleMiniVdClick}
                 initial={{ scale: 0.5, opacity: 0 }}
-                whileHover={{ scale: 1, opacity: 1}}
+                whileHover={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <video
@@ -115,13 +117,13 @@ const Hero = () => {
           <AnimatePresence mode="await">
             <motion.video
               key={currentIndex === totalVideos - 1 ? 1 : currentIndex}
-              initial={{ scaleX: .18 ,scaleY: .4, visibility: "hidden" }}
-              animate={{ 
+              initial={{ scaleX: .18, scaleY: .4, visibility: "hidden" }}
+              animate={{
                 scaleX: hasClicked ? 1 : 0,
                 scaleY: hasClicked ? 1 : 0,
                 visibility: "visible"
               }}
-              transition={{ duration: 2, ease: "easeInOut" ,type: "spring"}}
+              transition={{ duration: 2, ease: "easeInOut", type: "spring" }}
               ref={nextVdRef}
               src={getVideoSrc(currentIndex)}
               loop
@@ -146,9 +148,9 @@ const Hero = () => {
             onLoadedData={handleVideoLoad}
           />
 
-        
+
         </div>
-        <motion.h1 
+        <motion.h1
           className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -159,7 +161,7 @@ const Hero = () => {
 
         <div className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
-            <motion.h1 
+            <motion.h1
               className="special-font hero-heading text-blue-100"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -168,7 +170,7 @@ const Hero = () => {
               redefi<b>n</b>e
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               className="mb-5 max-w-64 font-robert-regular text-blue-100"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -193,7 +195,7 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      <motion.h1 
+      <motion.h1
         className="special-font hero-heading absolute bottom-5 right-5 text-black"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
