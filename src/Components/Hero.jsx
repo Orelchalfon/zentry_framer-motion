@@ -11,7 +11,8 @@ const Hero = () =>
   const [hasClicked, setHasClicked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState(0);
-
+  const [tap, setTap] = useState(false);
+  const [mouseTimeOut, setMouseTimeOut] = useState(null);
   const totalVideos = 4;
   const nextVdRef = useRef(null);
   const containerRef = useRef(null);
@@ -59,6 +60,26 @@ const Hero = () =>
 
   const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
 
+  const handleMouseMove = () =>
+  {
+    setTap(true);
+    if (mouseTimeOut) {
+      clearTimeout(mouseTimeOut);
+    }
+    setMouseTimeOut(setTimeout(() => setTap(false), 500));
+    // const { clientX, clientY } = e;
+    // const { innerWidth, innerHeight } = window;
+
+    // const x = (clientX / innerWidth) * 2 - 1;
+    // const y = (clientY / innerHeight) * 2 - 1;
+
+    // if (nextVdRef.current) {
+    //   nextVdRef.current.style.transform = `rotateX(${y * 10}deg) rotateY(${
+    //     x * 10
+    //     }deg)`;
+
+    // }
+  }
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
       {loading && (
@@ -73,29 +94,36 @@ const Hero = () =>
 
       <motion.div
         ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onTouchStart={() => setTap(true)}
+        onTouchEnd={() => setTap(false)}
+        onMouseEnter={() => setTap(true)}
+        onMouseLeave={() => setTap(false)}
         id="video-frame"
         className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
         style={{ clipPath, borderRadius }}
       >
         <div>
-          <motion.div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg object-cover origin-center"
+          <motion.div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer rounded-lg object-cover origin-center"
             initial={{
               border: "none",
               opacity: 0,
             }}
             animate={{
+              border: `${tap ? 1 : 0}px solid #000`,
               opacity: 1,
             }}
             whileHover={{
               opacity: 1,
-              transition: { duration: 0.5, ease: "easeIn", }
+              transition: { duration: 0.5, ease: "easeInOut", delay: 0.2 }
             }}
           >
             <VideoPreview key={currentIndex}>
               <motion.div
+                layout
                 onClick={handleMiniVdClick}
-                initial={{ scale: 0.5, opacity: 0 }}
-                whileHover={{ scale: 1, opacity: 1 }}
+                initial={{ scale: 1, opacity: 0, visibility: "hidden", border: "0px solid #000" }}
+                animate={{ scale: tap ? 1 : 1, opacity: tap ? 1 : 0, visibility: "visible", border: "24px solid #000" }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <video
@@ -107,7 +135,7 @@ const Hero = () =>
                   preload="metadata"
                   playsInline
                   id="current-video"
-                  className="size-64 origin-center scale-150 object-cover object-center will-change-transform"
+                  className="size-64 origin-center scale-150 object-cover object-center will-change-transform "
                   onLoadedData={handleVideoLoad}
                 />
               </motion.div>
@@ -117,13 +145,16 @@ const Hero = () =>
           <AnimatePresence mode="await">
             <motion.video
               key={currentIndex === totalVideos - 1 ? 1 : currentIndex}
-              initial={{ scaleX: .18, scaleY: .4, visibility: "hidden" }}
+              initial={{ left: '50%', top: '50%', x: '-50%', y: '-50%', width: '16rem', height: '16rem', visibility: "hidden" }}
               animate={{
                 scaleX: hasClicked ? 1 : 0,
                 scaleY: hasClicked ? 1 : 0,
+                width: hasClicked ? "100%" : "16rem",
+                height: hasClicked ? "100%" : "16rem",
+
                 visibility: "visible"
               }}
-              transition={{ duration: 2, ease: "easeInOut", type: "spring" }}
+              transition={{ duration: 1, ease: "easeInOut", type: "twin", stiffness: 400, damping: 30 }}
               ref={nextVdRef}
               src={getVideoSrc(currentIndex)}
               loop
@@ -132,7 +163,7 @@ const Hero = () =>
               preload="metadata"
               playsInline
               id="next-video"
-              className="absolute z-20 w-full h-full object-cover object-center will-change-transform"
+              className="absolute z-20 w-full h-full object-cover object-center will-change-transform "
               onLoadedData={handleVideoLoad}
             />
           </AnimatePresence>

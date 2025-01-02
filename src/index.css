@@ -10,7 +10,20 @@ body {
   background-color: #dfdff0;
   font-family: "General Sans", sans-serif;
 }
-
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #edff66;
+  border-radius: 1rem;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #edff66;
+}
 @layer base {
   @font-face {
     font-family: "circular-web";
