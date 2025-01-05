@@ -10,14 +10,14 @@ const About = () =>
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end "]
+    offset: ["start center", "end end"]
   });
-  const y = useTransform(scrollYProgress, [.5, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [.3,.6, .9], ["10%","30%", "50%"]);
 
-  const width = useTransform(scrollYProgress, [.3, .65], ["25vw", "100vw"]);
-  const height = useTransform(scrollYProgress, [.3, .65], ["30vh", "100vh"]);
-  const borderRadius = useTransform(scrollYProgress, [0, 1], ["10rem", "0px"]);
-  const poligonPath = useTransform(scrollYProgress, [.4, .65], [
+  const width = useTransform(scrollYProgress, [.6,1], ["25vw", "100vw"]);
+  const height = useTransform(scrollYProgress, [.6, 1], ["30vh", "100vh"]);
+  const borderRadius = useTransform(scrollYProgress, [0, .9], ["10rem", "0px"]);
+  const poligonPath = useTransform(scrollYProgress, [.6, .9], [
     "polygon(0 0, 79% 0, 100% 100%, 15% 100%)",
     "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
   ]);
