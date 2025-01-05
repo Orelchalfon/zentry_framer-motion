@@ -10,7 +10,7 @@ const About = () =>
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end end"]
+    offset: ["start center", "end "]
   });
   const y = useTransform(scrollYProgress, [.5, 1], ["0%", "50%"]);
 
@@ -45,7 +45,7 @@ const About = () =>
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
         >
           <p>The Game of Games begins—your life, now an epic MMORPG</p>
           <p className="text-gray-500">
@@ -62,8 +62,8 @@ const About = () =>
             width,
             height,
             borderRadius,
-            y,
             x: "-50%",
+            y,
             clipPath: poligonPath,
             opacity: imageLoaded ? 1 : 0,
             transition: "opacity 0.5s ease-in-out"
