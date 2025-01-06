@@ -12,11 +12,11 @@ const About = () =>
     target: containerRef,
     offset: ["start center", "end end"]
   });
-  const y = useTransform(scrollYProgress, [.3,.6, .9], ["10%","30%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-  const width = useTransform(scrollYProgress, [.6,1], ["25vw", "100vw"]);
-  const height = useTransform(scrollYProgress, [.6, 1], ["30vh", "100vh"]);
-  const borderRadius = useTransform(scrollYProgress, [0, .9], ["10rem", "0px"]);
+  const width = useTransform(scrollYProgress, [.6, 1], ["clamp(50%,50vw,100%)", "100vw"]);
+  const height = useTransform(scrollYProgress, [.6, 1], ["clamp(50%,50vw,100%)", "100vh"]);
+  const borderRadius = useTransform(scrollYProgress, [0, 1], ["10rem", "0rem"]);
   const poligonPath = useTransform(scrollYProgress, [.6, .9], [
     "polygon(0 0, 79% 0, 100% 100%, 15% 100%)",
     "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
@@ -72,7 +72,7 @@ const About = () =>
           <motion.img
             src="img/about.webp"
             alt="Zentry's immersive gaming world background"
-            className="size-full object-cover will-change-transform "
+            className="size-full object-cover"
             loading="lazy"
             decoding="async"
             onLoad={() => setImageLoaded(true)}
