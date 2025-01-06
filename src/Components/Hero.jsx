@@ -104,13 +104,11 @@ const Hero = () =>
         style={{ clipPath, borderRadius }}
       >
         <div>
-          <motion.div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer rounded-lg object-cover origin-center"
+          <motion.div className="mask-clip-path absolute-center size-44 z-50 cursor-pointer rounded-lg object-cover origin-center md:size-64"
             initial={{
-              border: "none",
               opacity: 0,
             }}
             animate={{
-              border: `${tap ? 1 : 0}px solid #000`,
               opacity: 1,
             }}
             whileHover={{
@@ -122,8 +120,8 @@ const Hero = () =>
               <motion.div
                 layout
                 onClick={handleMiniVdClick}
-                initial={{ scale: 1, opacity: 0, visibility: "hidden", border: "0px solid #000" }}
-                animate={{ scale: tap ? 1 : 1, opacity: tap ? 1 : 0, visibility: "visible", border: "24px solid #000" }}
+                initial={{ scale: 1, opacity: 0, visibility: "hidden" }}
+                animate={{ scale: tap ? 1 : 1, opacity: tap ? 1 : 0, visibility: "visible" }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <video
@@ -135,7 +133,7 @@ const Hero = () =>
                   preload="metadata"
                   playsInline
                   id="current-video"
-                  className="size-64 origin-center scale-150 object-cover object-center will-change-transform "
+                  className="size-44 origin-center scale-150 object-cover object-center will-change-transform  md:size-64"
                   onLoadedData={handleVideoLoad}
                 />
               </motion.div>
