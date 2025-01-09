@@ -197,7 +197,7 @@ const NavBar = () =>
               initial="closed"
               animate="open"
               exit="closed"
-              className="absolute right-0 top-16 rounded-b-lg bg-black/90 p-4 backdrop-blur-lg md:hidden"
+              className="absolute right-0 top-16 rounded-b-lg bg-[#c9fd74] p-4 backdrop-blur-lg md:hidden"
             >
               <motion.ul
                 variants={mobileNavbarVariants} // Parent applies staggerChildren
@@ -210,7 +210,7 @@ const NavBar = () =>
                   <motion.li
                     key={index}
                     variants={mobileNavbarListVariants} // Child participates in stagger
-                    className=" bolder text-zinc-50 transition-colors hover:text-blue-300"
+                    className=" bolder text-zinc-900 transition-colors hover:text-blue-300"
                   >
                     <a
                       href={`#${item.toLowerCase()}`}
