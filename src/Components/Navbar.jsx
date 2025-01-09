@@ -7,9 +7,51 @@ import { useWindowScroll } from "react-use";
 
 import Button from "./UI/Button";
 
-const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
+const navItems = ["About", "Prologue", "Nexus", "Contact"];
+const mobileNavbarVariants = {
+  open: {
+    height: "17.6275rem",
+    width: "100%",
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 40,
+      delayChildren: 0.3, // Delay before children animations start
+      staggerChildren: 0.1, // Delay between each child animation
+    },
+  },
+  closed: {
+    height: 0,
+    width: 0,
+    opacity: 0,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 40,
+      delay: .4,
+    },
+  },
+};
 
-const NavBar = () => {
+const mobileNavbarListVariants = {
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  closed: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
+const NavBar = () =>
+{
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,16 +64,19 @@ const NavBar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isFloating, setIsFloating] = useState(false);
 
-  const toggleAudioIndicator = () => {
+  const toggleAudioIndicator = () =>
+  {
     setIsAudioPlaying((prev) => !prev);
     setIsIndicatorActive((prev) => !prev);
   };
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = () =>
+  {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (isAudioPlaying) {
       audioElementRef.current.play();
     } else {
@@ -39,7 +84,8 @@ const NavBar = () => {
     }
   }, [isAudioPlaying]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (currentScrollY === 0) {
       setIsNavVisible(true);
       setIsFloating(false);
@@ -58,7 +104,7 @@ const NavBar = () => {
     <motion.div
       ref={navContainerRef}
       className={clsx(
-        "fixed inset-x-0 top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6",
+        "fixed inset-x-0 top-0 md:top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6",
         { "floating-nav": isFloating }
       )}
       initial={{ y: 0, opacity: 1 }}
@@ -71,9 +117,9 @@ const NavBar = () => {
       <header className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4">
           <div className="flex items-center gap-7">
-            <motion.img 
-              src="/img/logo.png" 
-              alt="logo" 
+            <motion.img
+              src="/img/logo.png"
+              alt="logo"
               className="w-10"
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -131,48 +177,62 @@ const NavBar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className="ml-4 block md:hidden"
+              className="ml-4 block z-10 md:hidden"
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? (
-                <RiCloseLine className="h-6 w-6 text-blue-50" />
+                <RiCloseLine className=" h-6 w-6 text-zinc-900" />
               ) : (
-                <RiMenu3Line className="h-6 w-6 text-blue-50" />
+                <RiMenu3Line className="h-6 w-6 text-zinc-50" />
               )}
             </button>
           </div>
         </nav>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="absolute left-0 right-0 top-16 rounded-b-lg bg-black/90 p-4 backdrop-blur-lg md:hidden"
+              variants={mobileNavbarVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="absolute right-0 top-0 rounded-b-lg bg-[#c9fd74] p-4 backdrop-blur-lg md:hidden"
             >
-              <div className="flex flex-col space-y-4">
+              <motion.ul
+                variants={mobileNavbarVariants} // Parent applies staggerChildren
+                initial="closed"
+                animate="open"
+                exit="closed"
+                className="flex flex-col gap-4 items-start p-4"
+              >
                 {navItems.map((item, index) => (
-                  <motion.a
+                  <motion.li
                     key={index}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-blue-50 transition-colors hover:text-blue-300"
-                    whileHover={{ x: 10 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    variants={mobileNavbarListVariants} // Child participates in stagger
+                    className="text-zinc-900 transition-colors hover:text-blue-300"
                   >
-                    {item}
-                  </motion.a>
+                    <a
+                      href={`#${item.toLowerCase()}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item}
+                    </a>
+                  </motion.li>
                 ))}
                 <Button
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 30 }}
+                  whileHover={{ scale: [.9, 1, 1.1, 1] }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+
                   id="mobile-product-button"
                   title="Products"
                   rightIcon={<TiLocationArrow />}
                   containerClass="bg-blue-50 w-full flex items-center justify-center gap-1"
                 />
-              </div>
+              </motion.ul>
             </motion.div>
           )}
         </AnimatePresence>

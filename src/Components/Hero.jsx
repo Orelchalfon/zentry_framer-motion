@@ -66,7 +66,7 @@ const Hero = () =>
     if (mouseTimeOut) {
       clearTimeout(mouseTimeOut);
     }
-    setMouseTimeOut(setTimeout(() => setTap(false), 500));
+    setMouseTimeOut(setTimeout(() => setTap(false), 1000));
     // const { clientX, clientY } = e;
     // const { innerWidth, innerHeight } = window;
 
@@ -104,7 +104,7 @@ const Hero = () =>
         style={{ clipPath, borderRadius }}
       >
         <div>
-          <motion.div className="mask-clip-path absolute-center size-44 z-50 cursor-pointer rounded-lg object-cover origin-center md:size-64"
+          <motion.div className="mask-clip-path absolute-center size-44 z-50 cursor-pointer rounded-lg object-cover origin-center "
             initial={{
               opacity: 0,
             }}
@@ -140,7 +140,7 @@ const Hero = () =>
             </VideoPreview>
           </motion.div>
 
-          <AnimatePresence mode="await">
+          <AnimatePresence mode="wait">
             <motion.video
               key={currentIndex === totalVideos - 1 ? 1 : currentIndex}
               initial={{ left: '50%', top: '50%', x: '-50%', y: '-50%', width: '16rem', height: '16rem', visibility: "hidden" }}
@@ -149,10 +149,9 @@ const Hero = () =>
                 scaleY: hasClicked ? 1 : 0,
                 width: hasClicked ? "100%" : "16rem",
                 height: hasClicked ? "100%" : "16rem",
-
                 visibility: "visible"
               }}
-              transition={{ duration: 1, ease: "easeInOut", type: "twin", stiffness: 400, damping: 30 }}
+              transition={{ duration: 1, ease: "easeInOut", type: "spring", stiffness: 120, damping: 40 }}
               ref={nextVdRef}
               src={getVideoSrc(currentIndex)}
               loop
@@ -164,8 +163,10 @@ const Hero = () =>
               className="absolute z-20 w-full h-full object-cover object-center will-change-transform "
               onLoadedData={handleVideoLoad}
             />
-          </AnimatePresence>
 
+
+
+          </AnimatePresence>
           <video
             src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
             autoPlay
@@ -176,8 +177,6 @@ const Hero = () =>
             className="absolute left-0 top-0 size-full object-cover object-center will-change-transform"
             onLoadedData={handleVideoLoad}
           />
-
-
         </div>
         <motion.h1
           className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75"
